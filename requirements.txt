@@ -1,0 +1,5 @@
+gensim==2.3.0
+Keras==2.0.6
+numpy==1.13.1
+pandas==0.20.3
+tensorflow-gpu==1.1.0
