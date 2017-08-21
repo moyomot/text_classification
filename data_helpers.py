@@ -1,3 +1,4 @@
+import logging
 
 import numpy as np
 import pandas as pd
@@ -7,7 +8,6 @@ from keras.preprocessing.text import Tokenizer
 from keras.preprocessing.sequence import pad_sequences
 from keras.utils import to_categorical
 
-import logging
 logger = logging.getLogger(__name__)
 
 
