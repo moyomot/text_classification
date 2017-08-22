@@ -31,7 +31,6 @@ class CNNClassifier:
         self.embedding_matrix = dataset.embedding_matrix
         self.word_index = dataset.word_index
 
-
     def fit(self):
         num_words = min(MAX_NB_WORDS, len(self.word_index))
         embedding_layer = Embedding(num_words,
@@ -50,8 +49,8 @@ class CNNClassifier:
         x = MaxPooling1D(35)(x)
         x = Flatten()(x)
         x = Dense(128, activation='relu')(x)
-        preds = Dense(5, activation='softmax')(x)
 
+        preds = Dense(5, activation='softmax')(x)
         model = Model(sequence_input, preds)
         model.compile(loss='binary_crossentropy',
                       optimizer='rmsprop',
