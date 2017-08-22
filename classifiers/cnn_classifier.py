@@ -56,6 +56,7 @@ class CNNClassifier:
                       optimizer='rmsprop',
                       metrics=['acc'])
 
+        model.summary()
         model.fit(self.X_train, self.y_train,
                     batch_size=128,
                     epochs=10,

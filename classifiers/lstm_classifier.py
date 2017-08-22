@@ -37,7 +37,7 @@ class LSTMClassifier:
         embedded_sequences = embedding_layer(sequence_input)
         l_lstm = Bidirectional(LSTM(100))(embedded_sequences)
 
-        preds = Dense(2, activation='softmax')(l_lstm)
+        preds = Dense(5, activation='softmax')(l_lstm)
         model = Model(sequence_input, preds)
         model.compile(loss='categorical_crossentropy',
                       optimizer='rmsprop',
