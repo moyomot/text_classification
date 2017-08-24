@@ -7,7 +7,6 @@ from keras.preprocessing.sequence import pad_sequences
 from keras.utils import to_categorical
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction.text import TfidfTransformer
-from sklearn.naive_bayes import MultinomialNB
 
 WORD2VEC_PATH = 'dataset/embedding/GoogleNews-vectors-negative300.bin'
 AG_NEWS_TRAIN_PATH = 'dataset/ag_news_csv/train.csv'
@@ -29,15 +28,6 @@ class AgNews(DataSet):
     EMBEDDING_DIM = 300
     MAX_SEQUENCE_LENGTH = 1000
 
-    def __init__(self):
-        self.X_train = None
-        self.X_test = None
-        self.y_train = None
-        self.y_test = None
-        self.df_train = None
-        self.df_test = None
-        self.embedding_matrix = None
-
     def load(self):
         column_names = ['category_id', 'title', 'description']
         with open(AG_NEWS_TRAIN_PATH, "r") as file:
@@ -45,7 +35,7 @@ class AgNews(DataSet):
         with open(AG_NEWS_TEST_PATH, "r") as file:
             self.df_test = pd.read_csv(file, names=column_names, header=None)
 
-    def create_cnn_dataset(self):
+    def create_embedding_dataset(self):
         self.load()
         X_train_texts = list(self.df_train.title + self.df_train.description)
         y_train_labels = list(self.df_train.category_id)
@@ -74,18 +64,16 @@ class AgNews(DataSet):
                 embedding_matrix[i] = word2vec.word_vec(word)
         self.embedding_matrix = embedding_matrix
 
-    def create_naive_bayes_dataset(self):
+    def create_tfidf_dataset(self):
         self.load()
         count_vect = CountVectorizer()
         X_train_texts = list(self.df_train.title + self.df_train.description)
-        self.y_train_labels = list(self.df_train.category_id)
         X_train_counts = count_vect.fit_transform(X_train_texts)
-        # tf_transformer = TfidfTransformer(use_idf=False).fit(X_train_counts)
-        # X_train_tf = tf_transformer.transform(X_train_counts)
         tfidf_transformer = TfidfTransformer()
         self.X_train_tfidf = tfidf_transformer.fit_transform(X_train_counts)
+        self.y_train_labels = list(self.df_train.category_id)
 
         X_test_texts = list(self.df_test.title + self.df_test.description)
-        X_test_counts = count_vect.fit_transform(X_test_texts)
+        X_test_counts = count_vect.transform(X_test_texts)
         self.X_test_tfidf = tfidf_transformer.fit_transform(X_test_counts)
         self.y_test_labels = list(self.df_test.category_id)

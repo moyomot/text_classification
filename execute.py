@@ -1,10 +1,15 @@
 from data_helpers import AgNews
 from classifiers.cnn_classifier import CNNClassifier
 from classifiers.lstm_classifier import LSTMClassifier
+from classifiers.naive_bayes_classifier import NaiveBayesClassifier
+from classifiers.svm_classifier import SVMClassifier
 import argparse
 
 datasets = {'ag_news': AgNews()}
-classifiers = {'cnn': CNNClassifier(), 'lstm': LSTMClassifier()}
+classifiers = {'cnn': CNNClassifier(),
+               'lstm': LSTMClassifier(),
+               'naive_bayes': NaiveBayesClassifier(),
+               'svm': SVMClassifier()}
 
 
 def main(classifier_str, dataset_str):
@@ -12,6 +17,9 @@ def main(classifier_str, dataset_str):
     classifier = classifiers[classifier_str]
     classifier.load(dataset)
     classifier.fit()
+    classifier.predict()
+
+    # TODO shuffle
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()

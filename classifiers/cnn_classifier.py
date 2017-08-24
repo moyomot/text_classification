@@ -10,7 +10,6 @@ from keras.layers.convolutional import Conv1D, MaxPooling1D
 MAX_SEQUENCE_LENGTH = 1000
 MAX_NB_WORDS = 200000
 EMBEDDING_DIM = 300
-VALIDATION_SPLIT = 0.2
 
 
 class CNNClassifier:
@@ -23,7 +22,7 @@ class CNNClassifier:
         self.word_index = None
 
     def load(self, dataset):
-        dataset.create_cnn_dataset()
+        dataset.create_embedding_dataset()
         self.X_train = dataset.X_train
         self.y_train = dataset.y_train
         self.X_test = dataset.X_test
