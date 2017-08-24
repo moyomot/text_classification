@@ -1,9 +1,10 @@
 from data_helpers import AgNews
 from classifiers.cnn_classifier import CNNClassifier
+from classifiers.lstm_classifier import LSTMClassifier
 import argparse
 
 datasets = {'ag_news': AgNews()}
-classifiers = {'cnn': CNNClassifier()}
+classifiers = {'cnn': CNNClassifier(), 'lstm': LSTMClassifier()}
 
 
 def main(classifier_str, dataset_str):

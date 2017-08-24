@@ -1,11 +1,5 @@
-"""
-https://papers.nips.cc/paper/5782-character-level-convolutional-networks-for-text-classification.pdf
-https://blog.keras.io/using-pre-trained-word-embeddings-in-a-keras-model.html
-"""
-from keras.layers import Dense, Flatten, Input, Embedding
+from keras.layers import Bidirectional, Dense, Input, Embedding, LSTM
 from keras.models import Model
-from keras.layers.convolutional import Conv1D, MaxPooling1D
-
 
 MAX_SEQUENCE_LENGTH = 1000
 MAX_NB_WORDS = 200000
@@ -13,7 +7,7 @@ EMBEDDING_DIM = 300
 VALIDATION_SPLIT = 0.2
 
 
-class CNNClassifier:
+class LSTMClassifier:
     def __init__(self):
         self.X_train = None
         self.y_train = None
@@ -41,23 +35,16 @@ class CNNClassifier:
 
         sequence_input = Input(shape=(MAX_SEQUENCE_LENGTH,), dtype='int32')
         embedded_sequences = embedding_layer(sequence_input)
-        x = Conv1D(128, 5, activation='relu')(embedded_sequences)
-        x = MaxPooling1D(5)(x)
-        x = Conv1D(128, 5, activation='relu')(x)
-        x = MaxPooling1D(5)(x)
-        x = Conv1D(128, 5, activation='relu')(x)
-        x = MaxPooling1D(35)(x)
-        x = Flatten()(x)
-        x = Dense(128, activation='relu')(x)
+        l_lstm = Bidirectional(LSTM(100))(embedded_sequences)
 
-        preds = Dense(5, activation='softmax')(x)
+        preds = Dense(5, activation='softmax')(l_lstm)
         model = Model(sequence_input, preds)
-        model.compile(loss='binary_crossentropy',
+        model.compile(loss='categorical_crossentropy',
                       optimizer='rmsprop',
                       metrics=['acc'])
 
         model.summary()
         model.fit(self.X_train, self.y_train,
-                    batch_size=128,
-                    epochs=10,
-                    validation_data=(self.X_test, self.y_test))
+                  batch_size=128,
+                  epochs=10,
+                  validation_data=(self.X_test, self.y_test))
