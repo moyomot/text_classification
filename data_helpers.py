@@ -8,6 +8,8 @@ from keras.utils import to_categorical
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction.text import TfidfTransformer
 
+from logs import logger
+
 WORD2VEC_PATH = 'dataset/embedding/GoogleNews-vectors-negative300.bin'
 AG_NEWS_TRAIN_PATH = 'dataset/ag_news_csv/train.csv'
 AG_NEWS_TEST_PATH = 'dataset/ag_news_csv/test.csv'
@@ -39,11 +41,13 @@ class AgNews(DataSet):
         self.load()
         X_train_texts = list(self.df_train.title + self.df_train.description)
         y_train_labels = list(self.df_train.category_id)
-        # logger.info('train text size is '.format(len(X_train_texts)))
-        # logger.info('train label size is'.format(len(y_train_labels)))
+        logger.info('train text size is {size}'.format(size=len(X_train_texts)))
+        logger.info('train label size is {size}'.format(size=len(y_train_labels)))
 
         X_test_texts = list(self.df_test.title + self.df_test.description)
         y_test_labels = list(self.df_test.category_id)
+        logger.info('test text size is {size}'.format(size=len(X_test_texts)))
+        logger.info('test label size is {size}'.format(size=len(y_test_labels)))
 
         tokenizer = Tokenizer(num_words=AgNews.MAX_NB_WORDS)
         tokenizer.fit_on_texts(X_train_texts + X_test_texts)
@@ -72,8 +76,12 @@ class AgNews(DataSet):
         tfidf_transformer = TfidfTransformer()
         self.X_train_tfidf = tfidf_transformer.fit_transform(X_train_counts)
         self.y_train_labels = list(self.df_train.category_id)
+        logger.info('train text size is {size}'.format(size=len(X_train_texts)))
+        logger.info('train label size is {size}'.format(size=len(self.y_train_labels)))
 
         X_test_texts = list(self.df_test.title + self.df_test.description)
         X_test_counts = count_vect.transform(X_test_texts)
         self.X_test_tfidf = tfidf_transformer.fit_transform(X_test_counts)
         self.y_test_labels = list(self.df_test.category_id)
+        logger.info('test text size is {size}'.format(size=len(X_test_texts)))
+        logger.info('test label size is {size}'.format(size=len(self.y_test_labels)))
