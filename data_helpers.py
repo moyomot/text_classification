@@ -138,6 +138,17 @@ class YahooAnswers(DataSet):
         self.EMBEDDING_DIM = 300
         self.MAX_SEQUENCE_LENGTH = 2000
 
+    def create_embedding_dataset(self):
+        self.load(self.COLUMN_NAMES)
+        self.X_train = list(self.df_train.title.fillna(" ") + self.df_train.question.fillna(" ") + self.df_train.answer.fillna(" "))
+        self.X_train = [clean_str(text) for text in self.X_train]
+        self.y_train = list(self.df_train.category_id)
+        self.X_test = list(self.df_test.title.fillna(" ") + self.df_test.question.fillna(" ") + self.df_test.answer.fillna(" "))
+        self.X_test = [clean_str(text) for text in self.X_test]
+        self.y_test = list(self.df_test.category_id)
+        self.category_size = len(self.df_test.groupby('category_id'))
+        self.embedding_transfomer()
+
     def create_tfidf_dataset(self):
         self.load(self.COLUMN_NAMES)
         self.X_train = list(self.df_train.title.fillna(" ") + self.df_train.question.fillna(" ") + self.df_train.answer.fillna(" "))
@@ -148,12 +159,3 @@ class YahooAnswers(DataSet):
         self.y_test = list(self.df_test.category_id)
         self.tfidf_transformer()
 
-    def create_embedding_dataset(self):
-        self.load(self.COLUMN_NAMES)
-        self.X_train = list(self.df_train.title.fillna(" ") + self.df_train.question.fillna(" ") + self.df_train.answer.fillna(" "))
-        self.X_train = [clean_str(text) for text in self.X_train]
-        self.y_train = list(self.df_train.category_id)
-        self.X_test = list(self.df_test.title.fillna(" ") + self.df_test.question.fillna(" ") + self.df_test.answer.fillna(" "))
-        self.X_test = [clean_str(text) for text in self.X_test]
-        self.y_test = list(self.df_test.category_id)
-        self.embedding_transfomer()
