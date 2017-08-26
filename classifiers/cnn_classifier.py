@@ -36,7 +36,7 @@ class CNNClassifier:
         x = Flatten()(x)
         x = Dense(128, activation='relu')(x)
 
-        preds = Dense(5, activation='softmax')(x)
+        preds = Dense(self.dataset.category_size + 1, activation='softmax')(x)
         model = Model(sequence_input, preds)
         model.compile(loss='binary_crossentropy',
                       optimizer='rmsprop',

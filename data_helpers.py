@@ -114,6 +114,7 @@ class AgNews(DataSet):
         self.X_test = list(self.df_test.title + self.df_test.description)
         self.X_test = [clean_str(text) for text in self.X_test]
         self.y_test = list(self.df_test.category_id)
+        self.category_size = len(self.df_test.groupby('category_id'))
         self.embedding_transfomer()
 
     def create_tfidf_dataset(self):
