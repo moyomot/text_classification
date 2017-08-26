@@ -18,11 +18,10 @@ def main(classifier_str, dataset_str):
     classifier = classifiers[classifier_str]
     classifier.load(dataset)
     classifier.fit()
-    classifier.predict()
+    classifier.evaluate()
 
     # TODO shuffle
     # TODO grid search
-    # early stop
 
 
 if __name__ == "__main__":

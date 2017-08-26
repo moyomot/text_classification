@@ -7,6 +7,7 @@ from keras.models import Model
 from keras.layers.convolutional import Conv1D, MaxPooling1D
 from keras.callbacks import EarlyStopping
 
+from logs import logger
 
 MAX_SEQUENCE_LENGTH = 1000
 MAX_NB_WORDS = 200000
@@ -63,3 +64,7 @@ class CNNClassifier:
                     epochs=10,
                     validation_data=(self.X_test, self.y_test),
                     callbacks=[early_stopping])
+
+    def evaluate(self):
+        score = self.model.evaluate(self.x_test, self.y_test, verbose=0)
+        logger.info(score)

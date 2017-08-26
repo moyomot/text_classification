@@ -1,6 +1,8 @@
 import numpy as np
 from sklearn.svm import LinearSVC
 
+from logs import logger
+
 class SVMClassifier:
     def __init__(self):
         self.X_train = None
@@ -18,6 +20,6 @@ class SVMClassifier:
     def fit(self):
         self.clf = LinearSVC().fit(self.X_train_tfidf, self.y_train_labels)
 
-    def predict(self):
+    def evaluate(self):
         predicted = self.clf.predict(self.X_test_tfidf)
-        print(np.mean(predicted==self.y_test_labels))
+        logger.info(np.mean(predicted==self.y_test_labels))

@@ -1,6 +1,7 @@
 import numpy as np
 from sklearn.naive_bayes import MultinomialNB
 
+from logs import logger
 
 class NaiveBayesClassifier:
     def __init__(self):
@@ -19,6 +20,6 @@ class NaiveBayesClassifier:
     def fit(self):
         self.clf = MultinomialNB().fit(self.X_train_tfidf, self.y_train_labels)
 
-    def predict(self):
+    def evaluate(self):
         predicted = self.clf.predict(self.X_test_tfidf)
-        print(np.mean(predicted==self.y_test_labels))
+        logger.info(np.mean(predicted==self.y_test_labels))
