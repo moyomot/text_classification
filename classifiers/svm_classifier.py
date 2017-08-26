@@ -5,22 +5,16 @@ from logs import logger
 
 
 class SVMClassifier:
-    def __init__(self):
-        self.X_train = None
-        self.y_train = None
-        self.X_test = None
-        self.y_test = None
-
     def load(self, dataset):
+        logger.info("[svm classifier start loading dataset]")
         dataset.create_tfidf_dataset()
-        self.X_train_tfidf = dataset.X_train_tfidf
-        self.y_train_labels = dataset.y_train_labels
-        self.X_test_tfidf = dataset.X_test_tfidf
-        self.y_test_labels = dataset.y_test_labels
+        self.dataset = dataset
 
     def fit(self):
-        self.clf = LinearSVC().fit(self.X_train_tfidf, self.y_train_labels)
+        logger.info("[svm classifier start creating model]")
+        self.clf = LinearSVC().fit(self.dataset.X_train_tfidf, self.dataset.y_train_labels)
 
     def evaluate(self):
-        predicted = self.clf.predict(self.X_test_tfidf)
-        logger.info(np.mean(predicted==self.y_test_labels))
+        logger.info("[svm classifier start evaluating model]")
+        predicted = self.clf.predict(self.dataset.X_test_tfidf)
+        logger.info(np.mean(predicted==self.dataset.y_test_labels))

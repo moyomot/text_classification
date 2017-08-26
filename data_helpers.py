@@ -101,10 +101,10 @@ class AgNews(DataSet):
     TEST_PATH = 'dataset/ag_news_csv/test.csv'
     COLUMN_NAMES = ['category_id', 'title', 'description']
 
-    MAX_NB_WORDS = 200000
-    EMBEDDING_DIM = 300
-    MAX_SEQUENCE_LENGTH = 1000
-
+    def __init__(self):
+        self.MAX_NB_WORDS = 200000
+        self.EMBEDDING_DIM = 300
+        self.MAX_SEQUENCE_LENGTH = 1000
 
     def create_embedding_dataset(self):
         self.load(self.COLUMN_NAMES)
@@ -132,9 +132,10 @@ class YahooAnswers(DataSet):
     TEST_PATH = 'dataset/yahoo_answers_csv/test.csv'
     COLUMN_NAMES = ['category_id', 'title', 'question', 'answer']
 
-    MAX_NB_WORDS = 1200000
-    EMBEDDING_DIM = 300
-    MAX_SEQUENCE_LENGTH = 2000
+    def __init__(self):
+        self.MAX_NB_WORDS = 1200000
+        self.EMBEDDING_DIM = 300
+        self.MAX_SEQUENCE_LENGTH = 2000
 
     def create_tfidf_dataset(self):
         self.load(self.COLUMN_NAMES)
