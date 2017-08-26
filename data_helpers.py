@@ -76,20 +76,20 @@ class DataSet:
         logger.info('test label size is {size}'.format(size=len(self.y_test_labels)))
 
     def embedding_transfomer(self):
-        tokenizer = Tokenizer(num_words=AgNews.MAX_NB_WORDS)
+        tokenizer = Tokenizer(num_words=self.MAX_NB_WORDS)
         tokenizer.fit_on_texts(self.X_train + self.X_test)
         X_train_sequences = tokenizer.texts_to_sequences(self.X_train)
         X_test_sequences = tokenizer.texts_to_sequences(self.X_test)
 
-        self.X_train = pad_sequences(X_train_sequences, maxlen=AgNews.MAX_SEQUENCE_LENGTH)
-        self.X_test = pad_sequences(X_test_sequences, maxlen=AgNews.MAX_SEQUENCE_LENGTH)
+        self.X_train = pad_sequences(X_train_sequences, maxlen=self.MAX_SEQUENCE_LENGTH)
+        self.X_test = pad_sequences(X_test_sequences, maxlen=self.MAX_SEQUENCE_LENGTH)
 
         self.y_train = to_categorical(np.asarray(self.y_train))
         self.y_test = to_categorical(np.asarray(self.y_test))
 
         word2vec = DataSet.load_word2vec()
         self.word_index = tokenizer.word_index
-        embedding_matrix = np.zeros((len(self.word_index), AgNews.EMBEDDING_DIM))
+        embedding_matrix = np.zeros((len(self.word_index), self.EMBEDDING_DIM))
         for word, i in self.word_index.items():
             if word in word2vec.vocab:
                 embedding_matrix[i] = word2vec.word_vec(word)
@@ -105,36 +105,16 @@ class AgNews(DataSet):
     EMBEDDING_DIM = 300
     MAX_SEQUENCE_LENGTH = 1000
 
+
     def create_embedding_dataset(self):
         self.load(self.COLUMN_NAMES)
-        X_train_texts = list(self.df_train.title + self.df_train.description)
-        y_train_labels = list(self.df_train.category_id)
-        logger.info('train text size is {size}'.format(size=len(X_train_texts)))
-        logger.info('train label size is {size}'.format(size=len(y_train_labels)))
-
-        X_test_texts = list(self.df_test.title + self.df_test.description)
-        y_test_labels = list(self.df_test.category_id)
-        logger.info('test text size is {size}'.format(size=len(X_test_texts)))
-        logger.info('test label size is {size}'.format(size=len(y_test_labels)))
-
-        tokenizer = Tokenizer(num_words=AgNews.MAX_NB_WORDS)
-        tokenizer.fit_on_texts(X_train_texts + X_test_texts)
-        X_train_sequences = tokenizer.texts_to_sequences(X_train_texts)
-        X_test_sequences = tokenizer.texts_to_sequences(X_test_texts)
-
-        self.X_train = pad_sequences(X_train_sequences, maxlen=AgNews.MAX_SEQUENCE_LENGTH)
-        self.X_test = pad_sequences(X_test_sequences, maxlen=AgNews.MAX_SEQUENCE_LENGTH)
-
-        self.y_train = to_categorical(np.asarray(y_train_labels))
-        self.y_test = to_categorical(np.asarray(y_test_labels))
-
-        word2vec = DataSet.load_word2vec()
-        self.word_index = tokenizer.word_index
-        embedding_matrix = np.zeros((len(self.word_index), AgNews.EMBEDDING_DIM))
-        for word, i in self.word_index.items():
-            if word in word2vec.vocab:
-                embedding_matrix[i] = word2vec.word_vec(word)
-        self.embedding_matrix = embedding_matrix
+        self.X_train = list(self.df_train.title + self.df_train.description)
+        self.X_train = [clean_str(text) for text in self.X_train]
+        self.y_train = list(self.df_train.category_id)
+        self.X_test = list(self.df_test.title + self.df_test.description)
+        self.X_test = [clean_str(text) for text in self.X_test]
+        self.y_test = list(self.df_test.category_id)
+        self.embedding_transfomer()
 
     def create_tfidf_dataset(self):
         self.load(self.COLUMN_NAMES)
@@ -151,6 +131,10 @@ class YahooAnswers(DataSet):
     TRAIN_PATH = 'dataset/yahoo_answers_csv/train.csv'
     TEST_PATH = 'dataset/yahoo_answers_csv/test.csv'
     COLUMN_NAMES = ['category_id', 'title', 'question', 'answer']
+
+    MAX_NB_WORDS = 1200000
+    EMBEDDING_DIM = 300
+    MAX_SEQUENCE_LENGTH = 2000
 
     def create_tfidf_dataset(self):
         self.load(self.COLUMN_NAMES)
