@@ -5,6 +5,7 @@ https://blog.keras.io/using-pre-trained-word-embeddings-in-a-keras-model.html
 from keras.layers import Dense, Flatten, Input, Embedding
 from keras.models import Model
 from keras.layers.convolutional import Conv1D, MaxPooling1D
+from keras.callbacks import EarlyStopping
 
 
 MAX_SEQUENCE_LENGTH = 1000
@@ -56,7 +57,9 @@ class CNNClassifier:
                       metrics=['acc'])
 
         model.summary()
+        early_stopping = EarlyStopping(monitor='val_loss', min_delta=0, patience=0, verbose=0, mode='auto')
         model.fit(self.X_train, self.y_train,
                     batch_size=128,
                     epochs=10,
-                    validation_data=(self.X_test, self.y_test))
+                    validation_data=(self.X_test, self.y_test),
+                    callbacks=[early_stopping])
