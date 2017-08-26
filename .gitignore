@@ -99,3 +99,9 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+# datasets
+dataset/embedding/*
+dataset/ag_news_csv/*
+dataset/yahoo_answers_csv/
+
