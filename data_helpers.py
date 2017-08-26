@@ -164,10 +164,10 @@ class YahooAnswers(DataSet):
 
     def create_embedding_dataset(self):
         self.load(self.COLUMN_NAMES)
-        self.X_train = list(self.df_train.title.fillna(" ") + self.df_train.description.fillna(" "))
+        self.X_train = list(self.df_train.title.fillna(" ") + self.df_train.question.fillna(" ") + self.df_train.answer.fillna(" "))
         self.X_train = [clean_str(text) for text in self.X_train]
         self.y_train = list(self.df_train.category_id)
-        self.X_test = list(self.df_test.title.fillna(" ") + self.df_test.description.fillna(" "))
+        self.X_test = list(self.df_test.title.fillna(" ") + self.df_test.question.fillna(" ") + self.df_test.answer.fillna(" "))
         self.X_test = [clean_str(text) for text in self.X_test]
         self.y_test = list(self.df_test.category_id)
         self.embedding_transfomer()
