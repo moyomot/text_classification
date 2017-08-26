@@ -110,10 +110,10 @@ class AgNews(DataSet):
         self.load(self.COLUMN_NAMES)
         self.X_train = list(self.df_train.title + self.df_train.description)
         self.X_train = [clean_str(text) for text in self.X_train]
-        self.y_train = list(self.df_train.category_id)
+        self.y_train = list(self.df_train.category_id-1)
         self.X_test = list(self.df_test.title + self.df_test.description)
         self.X_test = [clean_str(text) for text in self.X_test]
-        self.y_test = list(self.df_test.category_id)
+        self.y_test = list(self.df_test.category_id-1)
         self.category_size = len(self.df_test.groupby('category_id'))
         self.embedding_transfomer()
 
@@ -121,10 +121,10 @@ class AgNews(DataSet):
         self.load(self.COLUMN_NAMES)
         self.X_train = list(self.df_train.title + self.df_train.description)
         self.X_train = [clean_str(text) for text in self.X_train]
-        self.y_train = list(self.df_train.category_id)
+        self.y_train = list(self.df_train.category_id-1)
         self.X_test = list(self.df_test.title + self.df_test.description)
         self.X_test = [clean_str(text) for text in self.X_test]
-        self.y_test = list(self.df_test.category_id)
+        self.y_test = list(self.df_test.category_id-1)
         self.tfidf_transformer()
 
 
@@ -142,10 +142,10 @@ class YahooAnswers(DataSet):
         self.load(self.COLUMN_NAMES)
         self.X_train = list(self.df_train.title.fillna(" ") + self.df_train.question.fillna(" ") + self.df_train.answer.fillna(" "))
         self.X_train = [clean_str(text) for text in self.X_train]
-        self.y_train = list(self.df_train.category_id)
+        self.y_train = list(self.df_train.category_id-1)
         self.X_test = list(self.df_test.title.fillna(" ") + self.df_test.question.fillna(" ") + self.df_test.answer.fillna(" "))
         self.X_test = [clean_str(text) for text in self.X_test]
-        self.y_test = list(self.df_test.category_id)
+        self.y_test = list(self.df_test.category_id-1)
         self.category_size = len(self.df_test.groupby('category_id'))
         self.embedding_transfomer()
 
@@ -153,9 +153,9 @@ class YahooAnswers(DataSet):
         self.load(self.COLUMN_NAMES)
         self.X_train = list(self.df_train.title.fillna(" ") + self.df_train.question.fillna(" ") + self.df_train.answer.fillna(" "))
         self.X_train = [clean_str(text) for text in self.X_train]
-        self.y_train = list(self.df_train.category_id)
+        self.y_train = list(self.df_train.category_id-1)
         self.X_test = list(self.df_test.title.fillna(" ") + self.df_test.question.fillna(" ") + self.df_test.answer.fillna(" "))
         self.X_test = [clean_str(text) for text in self.X_test]
-        self.y_test = list(self.df_test.category_id)
+        self.y_test = list(self.df_test.category_id-1)
         self.tfidf_transformer()
 
