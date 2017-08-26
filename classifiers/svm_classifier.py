@@ -3,6 +3,7 @@ from sklearn.svm import LinearSVC
 
 from logs import logger
 
+
 class SVMClassifier:
     def __init__(self):
         self.X_train = None

@@ -3,6 +3,7 @@ from sklearn.naive_bayes import MultinomialNB
 
 from logs import logger
 
+
 class NaiveBayesClassifier:
     def __init__(self):
         self.X_train = None

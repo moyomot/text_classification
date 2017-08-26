@@ -64,7 +64,8 @@ class CNNClassifier:
                     epochs=10,
                     validation_data=(self.X_test, self.y_test),
                     callbacks=[early_stopping])
+        self.model = model
 
     def evaluate(self):
-        score = self.model.evaluate(self.x_test, self.y_test, verbose=0)
+        score = self.model.evaluate(self.X_test, self.y_test, verbose=0)
         logger.info(score)

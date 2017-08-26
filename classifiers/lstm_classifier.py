@@ -54,5 +54,5 @@ class LSTMClassifier:
         self.model = model
 
     def evaluate(self):
-        score = self.model.evaluate(self.x_test, self.y_test, verbose=0)
+        score = self.model.evaluate(self.X_test, self.y_test, verbose=0)
         logger.info(score)
