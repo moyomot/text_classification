@@ -1,6 +1,7 @@
 import numpy as np
 from sklearn.naive_bayes import MultinomialNB
 
+
 class NaiveBayesClassifier:
     def __init__(self):
         self.X_train = None
