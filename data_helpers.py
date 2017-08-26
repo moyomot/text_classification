@@ -75,6 +75,26 @@ class DataSet:
         logger.info('test text size is {size}'.format(size=len(self.X_test)))
         logger.info('test label size is {size}'.format(size=len(self.y_test_labels)))
 
+    def embedding_transfomer(self):
+        tokenizer = Tokenizer(num_words=AgNews.MAX_NB_WORDS)
+        tokenizer.fit_on_texts(self.X_train + self.X_test)
+        X_train_sequences = tokenizer.texts_to_sequences(self.X_train)
+        X_test_sequences = tokenizer.texts_to_sequences(self.X_test)
+
+        self.X_train = pad_sequences(X_train_sequences, maxlen=AgNews.MAX_SEQUENCE_LENGTH)
+        self.X_test = pad_sequences(X_test_sequences, maxlen=AgNews.MAX_SEQUENCE_LENGTH)
+
+        self.y_train = to_categorical(np.asarray(self.y_train))
+        self.y_test = to_categorical(np.asarray(self.y_test))
+
+        word2vec = DataSet.load_word2vec()
+        self.word_index = tokenizer.word_index
+        embedding_matrix = np.zeros((len(self.word_index), AgNews.EMBEDDING_DIM))
+        for word, i in self.word_index.items():
+            if word in word2vec.vocab:
+                embedding_matrix[i] = word2vec.word_vec(word)
+        self.embedding_matrix = embedding_matrix
+
 
 class AgNews(DataSet):
     TRAIN_PATH = 'dataset/ag_news_csv/train.csv'
@@ -122,6 +142,7 @@ class AgNews(DataSet):
         self.X_train = [clean_str(text) for text in self.X_train]
         self.y_train = list(self.df_train.category_id)
         self.X_test = list(self.df_test.title + self.df_test.description)
+        self.X_test = [clean_str(text) for text in self.X_test]
         self.y_test = list(self.df_test.category_id)
         self.tfidf_transformer()
 
@@ -134,7 +155,19 @@ class YahooAnswers(DataSet):
     def create_tfidf_dataset(self):
         self.load(self.COLUMN_NAMES)
         self.X_train = list(self.df_train.title.fillna(" ") + self.df_train.question.fillna(" ") + self.df_train.answer.fillna(" "))
+        self.X_train = [clean_str(text) for text in self.X_train]
         self.y_train = list(self.df_train.category_id)
         self.X_test = list(self.df_test.title.fillna(" ") + self.df_test.question.fillna(" ") + self.df_test.answer.fillna(" "))
+        self.X_test = [clean_str(text) for text in self.X_test]
         self.y_test = list(self.df_test.category_id)
         self.tfidf_transformer()
+
+    def create_embedding_dataset(self):
+        self.load(self.COLUMN_NAMES)
+        self.X_train = list(self.df_train.title.fillna(" ") + self.df_train.description.fillna(" "))
+        self.X_train = [clean_str(text) for text in self.X_train]
+        self.y_train = list(self.df_train.category_id)
+        self.X_test = list(self.df_test.title.fillna(" ") + self.df_test.description.fillna(" "))
+        self.X_test = [clean_str(text) for text in self.X_test]
+        self.y_test = list(self.df_test.category_id)
+        self.embedding_transfomer()
