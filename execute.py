@@ -1,11 +1,12 @@
-from data_helpers import AgNews
+from data_helpers import AgNews, YahooAnswers
 from classifiers.cnn_classifier import CNNClassifier
 from classifiers.lstm_classifier import LSTMClassifier
 from classifiers.naive_bayes_classifier import NaiveBayesClassifier
 from classifiers.svm_classifier import SVMClassifier
 import argparse
 
-datasets = {'ag_news': AgNews()}
+datasets = {'ag_news': AgNews(),
+            'yahoo_answers': YahooAnswers()}
 classifiers = {'cnn': CNNClassifier(),
                'lstm': LSTMClassifier(),
                'naive_bayes': NaiveBayesClassifier(),
@@ -20,6 +21,9 @@ def main(classifier_str, dataset_str):
     classifier.predict()
 
     # TODO shuffle
+    # TODO grid search
+    # early stop
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
