@@ -38,9 +38,9 @@ class CNNClassifier:
 
         preds = Dense(self.dataset.category_size + 1, activation='softmax')(x)
         model = Model(sequence_input, preds)
-        model.compile(loss='binary_crossentropy',
-                      optimizer='rmsprop',
-                      metrics=['acc'])
+        model.compile(loss='categorical_crossentropy',
+                      optimizer='adam',
+                      metrics=['accuracy'])
 
         model.summary()
         early_stopping = EarlyStopping(monitor='val_loss', min_delta=0, patience=0, verbose=0, mode='auto')
