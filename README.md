@@ -39,5 +39,5 @@ Classifier | validation loss | validation accuracy
 CNN | - | -
 LSTM | - | -
 Character Level CNN | - | -
-SVM | - | -
-Naive Bayes | - | -
+SVM | - | 0.7250
+Naive Bayes | - | 0.6952
