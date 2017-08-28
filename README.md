@@ -1,5 +1,5 @@
 # Text Classification
-Text classification is an important theme and basic classification task in natural language processing.  
+Text classification is an important theme and basic classification task in natural language processing and machine learning.  
 There are many methods to classify texts. Recently classification method by deep learning has been invented.  
 I will introduce classification by CNN and LSTM which is a representative deep learning.  
 And also summarized svm and naive bayes which are classic methods.
@@ -28,3 +28,16 @@ LSTM | 0.2587 | 0.9106
 Character Level CNN | 0.3692 | 0.8709
 SVM | - | 0.9007
 Naive Bayes | - | 0.9182
+
+#### Yahoo! Answers
+Classes | Train Data Size | Test DataSize
+-- | -- | --
+10 |  1,400,000 | 60,000
+
+Classifier | validation loss | validation accuracy
+-- | -- | --
+CNN | - | -
+LSTM | - | -
+Character Level CNN | - | -
+SVM | - | -
+Naive Bayes | - | -
