@@ -1,5 +1,5 @@
 """
-https://papers.nips.cc/paper/5782-character-level-convolutional-networks-for-text-classification.pdf
+http://www.aclweb.org/anthology/D14-1181
 This is not a same model.
 """
 from keras.layers import Dense, Flatten, Input, Embedding
