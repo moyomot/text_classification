@@ -21,9 +21,7 @@ class CharacterLevelCNNClassifier:
     def fit(self):
         dense_outputs = 1024
         logger.info("[character level cnn classifier start creating model]")
-        logger.info(self.dataset.X_train.shape)
-
-        input = Input(shape=(200, 69), dtype='float32')
+        input = Input(shape=(self.dataset.X_train.shape[1], self.dataset.X_train.shape[2]), dtype='int8')
         x = Conv1D(256, 7, activation='relu')(input)
         x = MaxPooling1D(3)(x)
         x = Conv1D(256, 7, activation='relu')(x)
