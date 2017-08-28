@@ -22,18 +22,18 @@ class LSTMClassifier:
 
         sequence_input = Input(shape=(self.dataset.MAX_SEQUENCE_LENGTH,), dtype='int32')
         embedded_sequences = embedding_layer(sequence_input)
-        l_lstm = Bidirectional(LSTM(100))(embedded_sequences)
+        lstm = Bidirectional(LSTM(64, dropout=0.2, recurrent_dropout=0.2))(embedded_sequences)
 
-        preds = Dense(self.dataset.category_size + 1, activation='softmax')(l_lstm)
+        preds = Dense(self.dataset.category_size, activation='softmax')(lstm)
         model = Model(sequence_input, preds)
         model.compile(loss='categorical_crossentropy',
-                      optimizer='rmsprop',
-                      metrics=['acc'])
+                      optimizer='adam',
+                      metrics=['accuracy'])
         model.summary()
         early_stopping = EarlyStopping(monitor='val_loss', min_delta=0, patience=0, verbose=0, mode='auto')
         model.fit(self.dataset.X_train,
                   self.dataset.y_train,
-                  batch_size=128,
+                  batch_size=512,
                   epochs=10,
                   validation_data=(self.dataset.X_test, self.dataset.y_test),
                   callbacks=[early_stopping])

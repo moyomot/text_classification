@@ -1,16 +1,23 @@
 from data_helpers import AgNews, YahooAnswers
 from classifiers.cnn_classifier import CNNClassifier
 from classifiers.lstm_classifier import LSTMClassifier
+from classifiers.character_level_cnn_classifier import CharacterLevelCNNClassifier
 from classifiers.naive_bayes_classifier import NaiveBayesClassifier
 from classifiers.svm_classifier import SVMClassifier
 import argparse
 
-datasets = {'ag_news': AgNews(),
-            'yahoo_answers': YahooAnswers()}
-classifiers = {'cnn': CNNClassifier(),
-               'lstm': LSTMClassifier(),
-               'naive_bayes': NaiveBayesClassifier(),
-               'svm': SVMClassifier()}
+datasets = {
+    'ag_news': AgNews(),
+    'yahoo_answers': YahooAnswers()
+}
+
+classifiers = {
+    'cnn': CNNClassifier(),
+    'lstm': LSTMClassifier(),
+    'character_level_cnn': CharacterLevelCNNClassifier(),
+    'naive_bayes': NaiveBayesClassifier(),
+    'svm': SVMClassifier()
+}
 
 
 def main(classifier_str, dataset_str):
@@ -20,7 +27,6 @@ def main(classifier_str, dataset_str):
     classifier.fit()
     classifier.evaluate()
 
-    # TODO shuffle
     # TODO grid search
 
 

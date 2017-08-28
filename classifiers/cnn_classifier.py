@@ -1,6 +1,6 @@
 """
-https://papers.nips.cc/paper/5782-character-level-convolutional-networks-for-text-classification.pdf
-https://blog.keras.io/using-pre-trained-word-embeddings-in-a-keras-model.html
+http://www.aclweb.org/anthology/D14-1181
+This is not a same model.
 """
 from keras.layers import Dense, Flatten, Input, Embedding
 from keras.models import Model
@@ -36,12 +36,11 @@ class CNNClassifier:
         x = Flatten()(x)
         x = Dense(128, activation='relu')(x)
 
-        preds = Dense(self.dataset.category_size + 1, activation='softmax')(x)
+        preds = Dense(self.dataset.category_size, activation='softmax')(x)
         model = Model(sequence_input, preds)
-        model.compile(loss='binary_crossentropy',
-                      optimizer='rmsprop',
-                      metrics=['acc'])
-
+        model.compile(loss='categorical_crossentropy',
+                      optimizer='adam',
+                      metrics=['accuracy'])
         model.summary()
         early_stopping = EarlyStopping(monitor='val_loss', min_delta=0, patience=0, verbose=0, mode='auto')
         model.fit(self.dataset.X_train,
