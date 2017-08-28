@@ -17,9 +17,9 @@ Naive Bayes | [scikit-learn](http://scikit-learn.org/stable/tutorial/text_analyt
 
 ### Result
 #### AG's News
-Classes | Train Data Size | Test DataSize
--- | -- | --
-4 | 120,000 | 7,600
+- Classes: 4
+- Train Data Size: 120,000
+- Test DataSize: 7,600
 
 Classifier | validation loss | validation accuracy
 -- | -- | --
@@ -30,9 +30,9 @@ SVM | - | 0.9007
 Naive Bayes | - | 0.9182
 
 #### Yahoo! Answers
-Classes | Train Data Size | Test DataSize
--- | -- | --
-10 |  1,400,000 | 60,000
+- Classes: 10
+- Train Data Size: 1,400,000
+- Test DataSize: 60,000
 
 Classifier | validation loss | validation accuracy
 -- | -- | --
