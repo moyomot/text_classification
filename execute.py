@@ -1,4 +1,4 @@
-from data_helpers import AgNews, YahooAnswers
+from data_helpers import AgNews, YahooAnswers, YelpReviewPolarity
 from classifiers.cnn_classifier import CNNClassifier
 from classifiers.lstm_classifier import LSTMClassifier
 from classifiers.character_level_cnn_classifier import CharacterLevelCNNClassifier
@@ -8,7 +8,8 @@ import argparse
 
 datasets = {
     'ag_news': AgNews(),
-    'yahoo_answers': YahooAnswers()
+    'yahoo_answers': YahooAnswers(),
+    'yelp_review_polarity': YelpReviewPolarity(),
 }
 
 classifiers = {
