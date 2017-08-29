@@ -6,12 +6,12 @@ And also summarized svm and naive bayes which are classic methods.
 
 ## Experiments
 ### Classifiers
-Classifier | Paper Link
+Classifier | Link
 -- | -- 
 CNN | [Paper](http://www.aclweb.org/anthology/D14-1181)
 LSTM | -
 Character Level CNN | [Paper](https://papers.nips.cc/paper/5782-character-level-convolutional-networks-for-text-classification.pdf)
-SVM | [scikit-earn](http://scikit-learn.org/stable/modules/svm.html#svm-classification)
+SVM | [scikit-learn](http://scikit-learn.org/stable/modules/svm.html#svm-classification)
 Naive Bayes | [scikit-learn](http://scikit-learn.org/stable/tutorial/text_analytics/working_with_text_data.html)
 
 
