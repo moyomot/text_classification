@@ -4,6 +4,11 @@ There are many methods to classify texts. Recently classification method by deep
 I will introduce classification by CNN and LSTM which is a representative deep learning.  
 And also summarized svm and naive bayes which are classic methods.
 
+## Run
+```
+python execute.py --method naive_bayes --dataset yelp_review_polarity
+```
+
 ## Experiments
 ### Classifiers
 Classifier | Link
@@ -28,6 +33,19 @@ LSTM | 0.2587 | 0.9106
 Character Level CNN | 0.3692 | 0.8709
 SVM | - | 0.9007
 Naive Bayes | - | 0.9182
+
+#### Yelp Review Polarity
+- Classes: 2
+- Train Data Size: 560,000
+- Test DataSize: 38,000
+
+Classifier | validation loss | validation accuracy
+-- | -- | --
+CNN | - | -
+LSTM | - | -
+Character Level CNN | - | -
+SVM | - | 0.9374
+Naive Bayes | - | 0.8831
 
 #### Yahoo! Answers
 - Classes: 10
