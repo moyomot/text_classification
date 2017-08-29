@@ -192,3 +192,65 @@ class YahooAnswers(DataSet):
         self.y_test = list(self.df_test.category_id-1)
         self.tfidf_transformer()
 
+
+class YelpReviewPolarity(DataSet):
+    TRAIN_PATH = 'dataset/yelp_review_polarity_csv/train.csv'
+    TEST_PATH = 'dataset/yelp_review_polarity_csv/test.csv'
+    COLUMN_NAMES = ['category_id', 'description']
+
+    def __init__(self):
+        self.MAX_NB_WORDS = 600000
+        self.EMBEDDING_DIM = 300
+        self.MAX_SEQUENCE_LENGTH = 2000
+
+    def create_embedding_dataset(self):
+        self.load(self.COLUMN_NAMES)
+        self.X_train = list(self.df_train.description.fillna(" "))
+        self.X_train = [clean_str(text) for text in self.X_train]
+        self.y_train = list(self.df_train.category_id-1)
+        self.X_test = list(self.df_test.description.fillna(" "))
+        self.X_test = [clean_str(text) for text in self.X_test]
+        self.y_test = list(self.df_test.category_id-1)
+        self.category_size = len(self.df_test.groupby('category_id'))
+        self.embedding_transfomer()
+
+    def create_tfidf_dataset(self):
+        self.load(self.COLUMN_NAMES)
+        self.X_train = list(self.df_train.description.fillna(" "))
+        self.X_train = [clean_str(text) for text in self.X_train]
+        self.y_train = list(self.df_train.category_id-1)
+        self.X_test = list(self.df_test.description.fillna(" "))
+        self.X_test = [clean_str(text) for text in self.X_test]
+        self.y_test = list(self.df_test.category_id-1)
+        self.tfidf_transformer()
+
+    def create_character_level_dataset(self):
+        chars = list(string.ascii_lowercase + string.digits + string.punctuation) + ['\n']
+        vocab = {char: id for id, char in enumerate(chars)}
+        vocab2vec = {}
+        for char, id in vocab.items():
+            x = np.zeros(len(vocab), dtype=np.int)
+            x[id] = 1
+            vocab2vec[char] = x
+
+        self.load(self.COLUMN_NAMES)
+        X_train = list(self.df_train.description)
+        X_train = [clean_str(text) for text in X_train]
+        X_train = [list(x.replace(' ', '')[:200]) for x in X_train]
+        X_train = np.array([x if len(x) == 200 else x + (['#'] * (200 - len(x))) for x in X_train])
+        self.X_train = np.array([[vocab2vec[char] for char in text] for text in X_train])
+        logger.info(self.X_train.shape)
+
+        self.y_train = np.array(self.df_train.category_id - 1)
+        X_test = list(self.df_test.description)
+        X_test = [clean_str(text) for text in X_test]
+        X_test = [list(x.replace(' ', '')[:200]) for x in X_test]
+        X_test = np.array([x if len(x) == 200 else x + (['#'] * (200 - len(x))) for x in X_test])
+        self.X_test = np.array([[vocab2vec[char] for char in text] for text in X_test])
+        logger.info(self.X_test.shape)
+
+        self.y_test = np.array(self.df_test.category_id - 1)
+        self.category_size = len(self.df_test.groupby('category_id'))
+
+        self.y_train = to_categorical(np.asarray(self.y_train))
+        self.y_test = to_categorical(np.asarray(self.y_test))
