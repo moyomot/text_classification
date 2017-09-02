@@ -33,29 +33,3 @@ LSTM | 0.2587 | 0.9106
 Character Level CNN | 0.3692 | 0.8709
 SVM | - | 0.9007
 Naive Bayes | - | 0.9182
-
-#### Yelp Review Polarity
-- Classes: 2
-- Train Data Size: 560,000
-- Test DataSize: 38,000
-
-Classifier | validation loss | validation accuracy
--- | -- | --
-CNN | 0.5458? | 0.6696?
-LSTM | - | -
-Character Level CNN | - | -
-SVM | - | 0.9374
-Naive Bayes | - | 0.8831
-
-#### Yahoo! Answers
-- Classes: 10
-- Train Data Size: 1,400,000
-- Test DataSize: 60,000
-
-Classifier | validation loss | validation accuracy
--- | -- | --
-CNN | - | -
-LSTM | - | -
-Character Level CNN | - | -
-SVM | - | 0.7250
-Naive Bayes | - | 0.6952
