@@ -22,7 +22,7 @@ class LSTMClassifier:
 
         sequence_input = Input(shape=(self.dataset.MAX_SEQUENCE_LENGTH,), dtype='int32')
         embedded_sequences = embedding_layer(sequence_input)
-        lstm = Bidirectional(LSTM(64, dropout=0.2, recurrent_dropout=0.2))(embedded_sequences)
+        lstm = LSTM(64, dropout=0.2, recurrent_dropout=0.2)(embedded_sequences)
 
         preds = Dense(self.dataset.category_size, activation='softmax')(lstm)
         model = Model(sequence_input, preds)
